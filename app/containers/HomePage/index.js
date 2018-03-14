@@ -44,7 +44,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     const reposListProps = {
       loading,
       error,
-      repos,
+      repos
     };
 
     return (
@@ -56,32 +56,32 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
         <div>
           <CenteredSection>
             <H2>
-              <FormattedMessage {...messages.startProjectHeader} />
+              <FormattedMessage { ...messages.startProjectHeader } />
             </H2>
             <p>
-              <FormattedMessage {...messages.startProjectMessage} />
+              <FormattedMessage { ...messages.startProjectMessage } />
             </p>
           </CenteredSection>
           <Section>
             <H2>
-              <FormattedMessage {...messages.trymeHeader} />
+              <FormattedMessage { ...messages.trymeHeader } />
             </H2>
-            <Form onSubmit={this.props.onSubmitForm}>
+            <Form onSubmit={ this.props.onSubmitForm }>
               <label htmlFor="username">
-                <FormattedMessage {...messages.trymeMessage} />
+                <FormattedMessage { ...messages.trymeMessage } />
                 <AtPrefix>
-                  <FormattedMessage {...messages.trymeAtPrefix} />
+                  <FormattedMessage { ...messages.trymeAtPrefix } />
                 </AtPrefix>
                 <Input
                   id="username"
                   type="text"
                   placeholder="mxstbr"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
+                  value={ this.props.username }
+                  onChange={ this.props.onChangeUsername }
                 />
               </label>
             </Form>
-            <ReposList {...reposListProps} />
+            <ReposList { ...reposListProps } />
           </Section>
         </div>
       </article>
@@ -93,24 +93,24 @@ HomePage.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.oneOfType([
     PropTypes.object,
-    PropTypes.bool,
+    PropTypes.bool
   ]),
   repos: PropTypes.oneOfType([
     PropTypes.array,
-    PropTypes.bool,
+    PropTypes.bool
   ]),
   onSubmitForm: PropTypes.func,
   username: PropTypes.string,
-  onChangeUsername: PropTypes.func,
+  onChangeUsername: PropTypes.func
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
-    onSubmitForm: (evt) => {
+    onChangeUsername: evt => dispatch(changeUsername(evt.target.value)),
+    onSubmitForm: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
-    },
+    }
   };
 }
 
