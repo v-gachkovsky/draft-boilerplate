@@ -13,6 +13,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import { createMuiTheme, MuiThemeProvider, withStyles } from 'material-ui/styles';
 import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
@@ -46,8 +47,8 @@ import configureStore from './configureStore';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
-// Import CSS reset and Global Styles
-import './global-styles';
+// Import JSS Global Styles
+import globalStyle from './globalStyles';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -66,12 +67,33 @@ const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
-const render = (messages) => {
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#47AEDB'
+    },
+    secondary: {
+      main: '#F8E35D'
+    }
+  }
+});
+
+const AppRoot = () => {
+  return (
+    <MuiThemeProvider theme={ theme }>
+      <App />
+    </MuiThemeProvider>
+  );
+};
+
+const StyledAppRoot = withStyles(globalStyle)(AppRoot);
+
+const render = messages => {
   ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-          <App />
+    <Provider store={ store }>
+      <LanguageProvider messages={ messages }>
+        <ConnectedRouter history={ history }>
+          <StyledAppRoot />
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
@@ -91,15 +113,15 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  (new Promise((resolve) => {
+  (new Promise(resolve => {
     resolve(import('intl'));
   }))
     .then(() => Promise.all([
       import('intl/locale-data/jsonp/en.js'),
-      import('intl/locale-data/jsonp/de.js'),
+      import('intl/locale-data/jsonp/de.js')
     ]))
     .then(() => render(translationMessages))
-    .catch((err) => {
+    .catch(err => {
       throw err;
     });
 } else {
