@@ -33,11 +33,35 @@ const items = {
   ]
 };
 
+const getMaxId = arr => {
+  const itemWithMaxId = arr.reduce((prev, current) => {
+    if (current.id > prev.id) {
+      return current;
+    }
+    return prev;
+  });
+
+  return itemWithMaxId.id;
+};
+
 export const get = url => {
-  console.log(`mocked API request on the URL ${url} fired!`);
+  console.log(`mocked API GET request on the URL ${url} is fired!`);
 
   return new Promise(resolve => {
     setTimeout(() => {
+      resolve(items);
+    }, 2000);
+  });
+};
+
+export const post = (url, data) => {
+  console.log(`mocked API POST request on the URL ${url} is fired!`);
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const lastId = getMaxId(items.data);
+      items.data.push({ id: lastId + 1, ...data });
+
       resolve(items);
     }, 2000);
   });

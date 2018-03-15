@@ -7,7 +7,7 @@ const style = theme => ({
   },
   table: {
     width: 600,
-    height: 400,
+    height: 350,
     overflow: 'visible'
   }
 });

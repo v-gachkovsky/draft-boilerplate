@@ -12,10 +12,11 @@ import 'react-virtualized/styles.css';
 import TextField from 'material-ui/TextField';
 import { CircularProgress } from 'material-ui/Progress';
 import { SortDirection, SortIndicator } from 'utils/sorting';
+import NewItemForm from './components/NewItemForm';
 import { selectItems, getLoadingStatus } from './selectors';
 import reducer from './reducer';
 import { NAMESPACE } from './constants';
-import { fetchItems } from './actions';
+import { fetchItems, addItem } from './actions';
 import saga from './sagas';
 
 import style from './style';
@@ -24,7 +25,7 @@ class DashboardPage extends Component {
   state = {
     items: this.props.items,
     filterPattern: '',
-    sortBy: 'title',
+    sortBy: 'id',
     sortDirection: SortDirection.ASC
   };
 
@@ -94,6 +95,11 @@ class DashboardPage extends Component {
     </div>
   );
 
+  handleSubmit = data => {
+    const { createItem } = this.props;
+    createItem(data);
+  };
+
   renderLoadableElement = element => {
     const { loading } = this.props;
 
@@ -107,7 +113,7 @@ class DashboardPage extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, errors, loading } = this.props;
     const {
       items,
       sortBy,
@@ -161,16 +167,16 @@ class DashboardPage extends Component {
 
     return (
       <div>
-        <h2
-          className={ classes.dashboardHeader }
-        >
+        <h2 className={ classes.dashboardHeader }>
           Dashboard Page
         </h2>
+
         <TextField
           label="Search by title"
           className={ classes.input }
           onChange={ this.handleFilterPatternChange }
         />
+
         <div>
           <h4>
             Dashboard Items:
@@ -178,6 +184,16 @@ class DashboardPage extends Component {
           <div className={ classes.table }>
             { this.renderLoadableElement(tableOfItems) }
           </div>
+
+          <div>
+            { !loading && (
+              <NewItemForm
+                errors={ errors }
+                onSubmit={ this.handleSubmit }
+              />
+            ) }
+          </div>
+
         </div>
       </div>
     );
@@ -192,8 +208,10 @@ DashboardPage.propTypes = {
     PropTypes.object
   ]),
   loading: PropTypes.bool,
+  errors: PropTypes.object,
   // Actions
-  getItems: PropTypes.func
+  getItems: PropTypes.func,
+  createItem: PropTypes.func
 };
 
 const mapStateToProps = () => createStructuredSelector({
@@ -202,7 +220,8 @@ const mapStateToProps = () => createStructuredSelector({
 });
 
 const mapDispatchToProps = {
-  getItems: fetchItems
+  getItems: fetchItems,
+  createItem: addItem
 };
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
