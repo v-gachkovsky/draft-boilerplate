@@ -4,6 +4,11 @@ const style = theme => ({
   },
   input: {
     margin: theme.spacing.unit
+  },
+  table: {
+    width: 600,
+    height: 400,
+    overflow: 'visible'
   }
 });
 
