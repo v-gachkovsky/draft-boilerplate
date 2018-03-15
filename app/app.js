@@ -13,7 +13,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import { createMuiTheme, MuiThemeProvider, withStyles } from 'material-ui/styles';
+import { MuiThemeProvider, withStyles } from 'material-ui/styles';
 import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
@@ -49,6 +49,8 @@ import { translationMessages } from './i18n';
 
 // Import JSS Global Styles
 import globalStyle from './globalStyles';
+// Import JSS MUI Theme
+import theme from './theme';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -66,17 +68,6 @@ const initialState = {};
 const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#47AEDB'
-    },
-    secondary: {
-      main: '#F8E35D'
-    }
-  }
-});
 
 const AppRoot = () => {
   return (
