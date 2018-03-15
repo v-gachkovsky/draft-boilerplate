@@ -1,15 +1,14 @@
 import { createSelector } from 'reselect';
 import { NAMESPACE } from './constants';
-
-const selectNamespace = state => state.get(NAMESPACE);
+import { selectNamespace } from '../../utils/reduxHelpers';
 
 const selectItems = () => createSelector(
-  selectNamespace,
+  state => selectNamespace(state)(NAMESPACE),
   namespace => namespace.get('items')
 );
 
 const getLoadingStatus = () => createSelector(
-  selectNamespace,
+  state => selectNamespace(state)(NAMESPACE),
   namespace => namespace.get('loading')
 );
 

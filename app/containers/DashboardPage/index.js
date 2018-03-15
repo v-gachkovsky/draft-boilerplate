@@ -6,7 +6,8 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { createStructuredSelector } from 'reselect';
-import Input from 'material-ui/Input';
+// import Input from 'material-ui/Input';
+import TextField from 'material-ui/TextField';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import { CircularProgress } from 'material-ui/Progress';
 import { selectItems, getLoadingStatus } from './selectors';
@@ -30,7 +31,6 @@ class DashboardPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      ...this.state,
       items: nextProps.items,
       filterPattern: ''
     });
@@ -38,16 +38,12 @@ class DashboardPage extends Component {
 
   getFilteredItems = () => {
     const { items, filterPattern } = this.state;
-    const filterPatternInLowerCase = filterPattern.toLowerCase();
 
-    return items.filter(item => item.title.toLowerCase().includes(filterPatternInLowerCase));
+    return items.filter(item => item.title.toLowerCase().includes(filterPattern));
   };
 
   handleFilterPatternChange = ({ target: { value } }) => {
-    this.setState({
-      ...this.state,
-      filterPattern: value
-    });
+    this.setState({ filterPattern: value.toLowerCase() });
   };
 
   renderLoadableElement = element => {
@@ -60,7 +56,7 @@ class DashboardPage extends Component {
         <CircularProgress size={ 60 } thickness={ 4 } />
       </div>
     );
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -87,13 +83,10 @@ class DashboardPage extends Component {
         >
           Dashboard Page
         </h2>
-        <Input
-          placeholder="Search"
+        <TextField
+          label="Search"
           className={ classes.input }
           onChange={ this.handleFilterPatternChange }
-          inputProps={ {
-            'aria-label': 'Search'
-          } }
         />
         <div>
           Dashboard Items:
