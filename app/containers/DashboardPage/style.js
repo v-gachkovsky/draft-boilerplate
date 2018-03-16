@@ -1,6 +1,6 @@
 const style = theme => ({
   dashboardHeader: {
-    color: '#6C8C2C'
+    color: theme.palette.primary.main
   },
   input: {
     margin: theme.spacing.unit
@@ -8,7 +8,10 @@ const style = theme => ({
   table: {
     width: 600,
     height: 350,
-    overflow: 'visible'
+    overflow: 'scroll'
+  },
+  newItemButtons: {
+    marginBottom: 25
   }
 });
 

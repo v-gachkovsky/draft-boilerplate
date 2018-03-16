@@ -61,6 +61,12 @@ class DashboardPage extends Component {
       : '';
   };
 
+  isLoaded = () => {
+    const { loading } = this.props;
+
+    return !loading;
+  };
+
   handleFilterPatternChange = ({ target: { value } }) => {
     this.setState({ filterPattern: value.toLowerCase() });
   };
@@ -101,9 +107,7 @@ class DashboardPage extends Component {
   };
 
   renderLoadableElement = element => {
-    const { loading } = this.props;
-
-    if (!loading) return element;
+    if (this.isLoaded()) return element;
 
     return (
       <div>
@@ -113,7 +117,7 @@ class DashboardPage extends Component {
   };
 
   render() {
-    const { classes, errors, loading } = this.props;
+    const { classes, errors } = this.props;
     const {
       items,
       sortBy,
@@ -171,27 +175,32 @@ class DashboardPage extends Component {
           Dashboard Page
         </h2>
 
-        <TextField
-          label="Search by title"
-          className={ classes.input }
-          onChange={ this.handleFilterPatternChange }
-        />
-
         <div>
           <h4>
             Dashboard Items:
           </h4>
-          <div className={ classes.table }>
-            { this.renderLoadableElement(tableOfItems) }
-          </div>
 
           <div>
-            { !loading && (
+            { this.isLoaded() && (
+              <TextField
+                label="Search by title"
+                className={ classes.input }
+                onChange={ this.handleFilterPatternChange }
+              />
+            ) }
+          </div>
+
+          <div className={ classes.newItemButtons }>
+            { this.isLoaded() && (
               <NewItemForm
                 errors={ errors }
                 onSubmit={ this.handleSubmit }
               />
             ) }
+          </div>
+
+          <div className={ classes.table }>
+            { this.renderLoadableElement(tableOfItems) }
           </div>
 
         </div>

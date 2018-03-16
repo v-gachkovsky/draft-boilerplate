@@ -2,7 +2,7 @@ import { addPrefix } from 'utils/reduxHelpers';
 import { NAMESPACE } from '../../constants';
 import validate from './validate';
 
-const FORM_NAME = addPrefix(NAMESPACE, 'NewItemForm');
+export const FORM_NAME = addPrefix(NAMESPACE, 'NewItemForm');
 
 export const ITEM_TITLE_FIELD_NAME = 'title';
 export const ITEM_DESCRIPTION_FIELD_NAME = 'description';
