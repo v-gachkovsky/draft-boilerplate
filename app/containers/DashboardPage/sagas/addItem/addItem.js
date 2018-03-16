@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import { post } from 'utils/apiRequestMocks/dashboard/apiRequest';
 import { reset } from 'redux-form';
-import { FORM_NAME } from '../../forms/newItemForm';
+import { FORM_NAME as NEW_ITEM_FORM } from '../../forms/newItemForm';
 import { addItemSuccess, addItemFailure } from '../../actions';
 
 export default function* addingDashboardItems(action) {
@@ -10,7 +10,7 @@ export default function* addingDashboardItems(action) {
   try {
     const { data: items } = yield call(post, '/items', payload);
 
-    yield reset(FORM_NAME);
+    yield reset(NEW_ITEM_FORM);
     yield put(addItemSuccess(items));
   } catch (error) {
     yield put(addItemFailure(null, error));
